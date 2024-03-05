@@ -6,7 +6,6 @@
     <div class="content">
         <div class="product-info">
             {{#each jsonData}}
-        {{#if this.reviews }}
             <div class="details">
                 <img class="product-img" src={{this.imgUrl}} alt="Product Image">
                 <h5 class="title"> Title: {{this.title}}</h5>
@@ -14,11 +13,14 @@
                 <p>Stars: {{this.stars}}</p>
                 <p>Price: {{this.price}}</p>
                 <p>Category: {{this.categoryName}}</p>
+                {{#if this.reviews}}
                 <p>Reviews: {{this.reviews}}</p>
+                {{else}}
+                <p class="convertedReviews">Reviews: {{reviewsConverter this.reviews}}</p>
+                {{/if}}
                 <p>Best Seller: {{this.isBestSeller}}</p>
                 <p>Bought in Last Month: {{this.boughtInLastMonth}}</p>
             </div>
-             {{/if}}
         {{/each}}
         </div>
     </div>

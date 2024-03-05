@@ -4,22 +4,23 @@ var fs = require("fs");
 var app = express();
 var data = require("./datasetB/datasetB.json")
 const exphbs = require("express-handlebars");
+const handlebars = require("handlebars")
 
 
-//custom handlebar helper
-Handlebars.registerHelper('reviewsConverter', function(value){
-  
-  if(value.equals('0'))
-       return "N/A";
-  else
-       return value;
-});
 
 const port = process.env.port || 3000;
 
 app.use(express.static(path.join(__dirname, "public")));
 
 app.engine(".hbs", exphbs.engine({ extname: ".hbs" }));
+
+//custom handlebar helper
+handlebars.registerHelper('reviewsConverter', function(value){
+  if(value === 0)
+       return "N/A";
+  else
+       return value;
+});
 app.set("view engine", ".hbs");
 
 app.get("/", function (req, res) {
