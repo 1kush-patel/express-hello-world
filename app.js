@@ -5,6 +5,16 @@ var app = express();
 var data = require("./datasetB/datasetB.json")
 const exphbs = require("express-handlebars");
 
+
+//custom handlebar helper
+Handlebars.registerHelper('reviewsConverter', function(value){
+  
+  if(value.equals('0'))
+       return "N/A";
+  else
+       return value;
+});
+
 const port = process.env.port || 3000;
 
 app.use(express.static(path.join(__dirname, "public")));
@@ -124,6 +134,7 @@ app.get('/data/search/prdName',(req,res)=>{
 app.get("/users", function (req, res) {
   res.send("respond with a resource");
 });
+
 
 app.get("*", function (req, res) {
   res.render("error", { title: "Error", message: "Wrong Route" });
