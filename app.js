@@ -26,6 +26,10 @@ app.use(express.static('public', options))
 
 // #############################################################################
 // Catch all handler for all other request.
+
+app.get('/test', (req,res) => {
+  res.send('this is response');
+})
 app.use('/', (req,res) => {
   res.json({
       at: new Date().toISOString(),
@@ -40,9 +44,5 @@ app.use('/', (req,res) => {
     .end()
 })
 
-app.get('/test', (req,res) => {
-  
-    res.sendFile('./public/test.html')
-})
 
 module.exports = app
