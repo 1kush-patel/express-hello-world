@@ -28,7 +28,7 @@ app.use(express.static('public', options))
 // Catch all handler for all other request.
 
 app.get('/test', (req,res) => {
-  res.end('this is response');
+  res.json({message:"hello from me."});
 })
 app.use('/', (req,res) => {
   res.json({
