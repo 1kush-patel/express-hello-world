@@ -40,4 +40,9 @@ app.use('*', (req,res) => {
     .end()
 })
 
+app.get('/test', (req,res) => {
+  
+    res.send('HI')
+})
+
 module.exports = app
