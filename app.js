@@ -19,7 +19,7 @@ app.get("/", function (req, res) {
 app.get("/data", (req, res) => {
   
     if (data) {
-      res.render("data", { jsonData: JSON.parse(JSON.stringify(data)).slice(0,50), title:"Top 50 products details." });
+      res.render("data", { jsonData: JSON.parse(JSON.stringify(data)).slice(0,50), title: "Top 50 products details." });
       return;
     }
     else{
@@ -63,7 +63,7 @@ app.get('/data/search/prdID',(req,res)=>{
                   
                if(element.asin == product_id)
                {
-                 res.render('data',{jsonData:[element],title:"Requested product details."}) 
+                 res.render('data',{jsonData:[element],title: "Requested product details."}) 
                  responseFlag = true;
                }
               }
@@ -100,7 +100,7 @@ app.get('/data/search/prdName',(req,res)=>{
               if(!dataFlag)
                   res.send('error',{message:"Oops! There are no products matched with your interest."});
               else
-                res.render('data',{jsonData: matchedProducts,title:"Requested product possible matches."})
+                res.render('data',{jsonData: matchedProducts,title: "Requested product possible matches."})
           }
           else
           {
