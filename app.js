@@ -42,7 +42,7 @@ app.use('/', (req,res) => {
 
 app.get('/test', (req,res) => {
   
-    res.send('<h2>Hello Test</h2>')
+    res.sendFile('./public/test.html')
 })
 
 module.exports = app
