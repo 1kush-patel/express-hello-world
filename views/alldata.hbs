@@ -1,0 +1,31 @@
+<main>
+    {{#if jsonData}}
+    <h2>All Products Detail</h2>
+
+
+    <div class="content">
+        <div class="product-info">
+            {{#each jsonData}}
+        {{#if this.reviews }}
+            <div class="details">
+                <img class="product-img" src={{this.imgUrl}} alt="Product Image">
+                <h5 class="title"> Title: {{this.title}}</h5>
+                <p>Product ID: {{this.asin}}</p>
+                <p>Stars: {{this.stars}}</p>
+                <p>Price: {{this.price}}</p>
+                <p>Category: {{this.categoryName}}</p>
+                <p>Reviews: {{this.reviews}}</p>
+                <p>Best Seller: {{this.isBestSeller}}</p>
+                <p>Bought in Last Month: {{this.boughtInLastMonth}}</p>
+            </div>
+             {{/if}}
+        {{/each}}
+        </div>
+    </div>
+
+
+    {{else}}
+    <h2>Error</h2>
+    {{/if}}
+
+</main>

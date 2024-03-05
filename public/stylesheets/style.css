@@ -1,0 +1,88 @@
+body, html {
+  height: 100%;
+  margin: 0;
+  font-family: "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+.container {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+header, footer {
+  background-color: olivedrab;
+  color: #000000;
+  padding: 10px;
+  text-align: center;
+}
+
+main {
+  background-color: #ffffff;
+}
+
+.content {
+  text-align: center;
+}
+.details
+{
+  border: 10px solid black;
+  border-radius: 15px;
+  margin: 15px;
+}
+.product-img
+{
+  height: 10%;
+  width: 20%;
+
+}
+.prodId{
+  color: orangered;
+  font-size: larger;
+}
+.prodId:hover{
+  color: orchid;
+  font-size: xx-large;
+}
+.searchByIdForm, .searchByNameForm
+{
+  height: auto;
+  width: 100%;
+}
+.searchByIdForm input, .searchByNameForm input
+{
+  border: 2px solid black;
+  border-radius: 10px;
+  width: 50%;
+  height: 50px;
+}
+.searchByIdForm button, .searchByNameForm button
+{
+  height: 50px;
+  color: deeppink;
+}
+
+.searchByIdForm button, .searchByNameForm button {
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 18px;
+  text-align: center;
+  color: #000000;
+  border: 5px solid transparent;
+  border-radius: 5px;
+}
+.searchByIdForm button, .searchByNameForm button {
+  border-color: transparent;
+  transition: background-color 0.3s ease-in-out;
+}
+  
+.searchByIdForm button:hover, .searchByNameForm button:hover {
+  background-color: gold;
+  cursor: pointer;
+}
+
+
+
+footer {
+  margin-top: auto;
+}
