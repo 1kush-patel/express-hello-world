@@ -1,8 +1,15 @@
+// Import required modules
 var express = require("express");
 var path = require("path");
 var fs = require("fs");
+
+// Create an Express application
 var app = express();
+
+//importing file to avoid multiple file read calls
 var data = require("./datasetB/datasetB.json")
+
+// Import Express Handlebars module
 const exphbs = require("express-handlebars");
 const handlebars = require("handlebars")
 
