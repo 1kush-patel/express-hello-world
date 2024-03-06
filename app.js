@@ -125,7 +125,6 @@ app.get('/data/search/prdName',(req,res)=>{
    
     if (data) {
       res.render("alldata", { jsonData: JSON.parse(JSON.stringify(data))});
-      return;
     }
     else{
     res.render("error",{message:"Error occurred while reading the file"});
