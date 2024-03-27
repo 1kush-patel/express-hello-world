@@ -2,6 +2,7 @@ var express = require('express');
 var path = require('path');
 var fs = require('fs');
 var mongoose = require('mongoose');
+mongoose.set('strictQuery', false);
 var app = express();
 var database = require('./config/database');
 var bodyParser = require('body-parser');         // pull information from HTML POST (express4)
