@@ -36,7 +36,7 @@ app.get("/",function(req, res){
 app.get("/data", function (req, res) {
     Product.find()
         .then(function (products) {
-            res.render('allData', { data: JSON.parse(JSON.stringify(products)).slice(0,100) }); // send the products data as JSON
+            res.render('allData', { data: JSON.parse(JSON.stringify(products)).slice(0,10) }); // send the products data as JSON
         })
         .catch(function (err) {
             res.status(500).send(err); // send 500 status code and the error message
