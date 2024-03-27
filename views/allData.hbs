@@ -1,0 +1,15 @@
+<div class="container">
+{{#each data}}
+<div class="card">
+    <img src={{imgUrl}} alt="Product Image" class="card-img">
+    <div class="card-body">
+        <h5 class="card-title">{{title}}</h5>
+        <p class="card-text">ASIN: {{asin}}</p>
+        <p class="card-text">Stars: {{stars}} (reviews:{{reviews}})</p>
+        <p class="card-text">Price: ${{price}}</p>
+        <p class="card-text">Category: {{categoryName}}</p>
+        <p class="card-text">Best Seller: {{isBestSeller}}</p>
+    </div>
+</div>
+{{/each}}
+</div>

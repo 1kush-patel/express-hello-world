@@ -1,0 +1,19 @@
+{
+  "name": "asn4-mongo-kushpatel",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "node Que2.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "express": "^4.18.1",
+    "express-handlebars": "^7.1.2",
+    "express-validator": "^6.14.2",
+    "handlebars": "^4.7.8",
+    "mongoose": "^6.7.2"
+  }
+}
