@@ -28,6 +28,10 @@ app.engine(".hbs", exphbs.engine({ extname: ".hbs", defaultLayout: 'main' }));
 app.set("view engine", ".hbs");
 
 
+app.get("/",function(req, res){
+    res.render('index');
+})
+
 app.get("/data", function (req, res) {
     Product.find()
         .then(function (products) {
@@ -165,6 +169,9 @@ app.delete('/data/product/:asin', function (req, res) {
             res.send('Successfully! Product has been Deleted.');
     });
 });
+app.get("*", function(req, res){
+    res.status(400).render('error',{message:"Something went wrong!!!"})
+})
 
 app.listen(port);
 console.log("App listening on port : " + port);
