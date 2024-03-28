@@ -1,3 +1,15 @@
+/******************************************************************************
+***
+* ITE5315 – Assignment 4
+* I declare that this assignment is my own work in accordance with Humber Academic Policy. 
+* No part of this assignment has been copied manually or electronically from any other source
+* (including web sites) or distributed to other students.
+* 
+* Name: Kush Nileshbhai Patel Student ID: N01579863 Date: 28-3-24
+*
+*
+******************************************************************************
+**/
 var express = require('express');
 var path = require('path');
 var fs = require('fs');
@@ -64,7 +76,7 @@ app.post("/addproduct", function (req, res) {
         if (err)
             res.send(err);
 
-        // get and return all the employees after newly created employe record
+        // get and returns the product after new product added
         Product.findOne({ asin: req.body.asin }, function (err, product) {
             if (err)
                 res.send(err);
@@ -90,7 +102,7 @@ app.get('/allData', function (req, res) {
         });
 });
 
-// get a employee with ID of 1
+// get a product by id
 app.get('/data/product/:prod_id', function (req, res) {
     let id = req.params.prod_id;
     Product.findById(id, function (err, product) {
@@ -103,10 +115,9 @@ app.get('/data/product/:prod_id', function (req, res) {
 });
 
 
-// create employee and send back all employees after creation
+// create product and send back the product after creation
 app.post('/data/product', function (req, res) {
 
-    // create mongose method to create a new record into collection
     console.log(req.body);
 
     Product.create({
@@ -123,7 +134,7 @@ app.post('/data/product', function (req, res) {
         if (err)
             res.send(err);
 
-        // get and return all the employees after newly created employe record
+        // get and return the product after new product created
         Product.findOne({ asin: req.body.asin }, function (err, product) {
             if (err)
                 res.send(err);
@@ -138,7 +149,6 @@ app.post('/data/product', function (req, res) {
 });
 
 
-// create employee and send back all employees after creation
 app.put('/data/product/:asin', function (req, res) {
     // create mongose method to update an existing record into collection
     console.log(req.body);
@@ -149,7 +159,6 @@ app.put('/data/product/:asin', function (req, res) {
         price: req.body.price
     }
 
-    // save the user
     Product.findOne({ asin: asin_id }, data, function (err, product) {
         if (err) throw err;
 
@@ -157,7 +166,7 @@ app.put('/data/product/:asin', function (req, res) {
     });
 });
 
-// delete a employee by id
+// delete a product by asin
 app.delete('/data/product/:asin', function (req, res) {
     console.log(req.params.asin);
     let asin_id = req.params.asin;
@@ -170,6 +179,8 @@ app.delete('/data/product/:asin', function (req, res) {
             res.send('Successfully! Product has been Deleted.');
     });
 });
+
+//handling wrong routes
 app.get("*", function(req, res){
     res.status(400).render('error',{message:"Something went wrong!!!"})
 })
