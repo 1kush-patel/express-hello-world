@@ -1,0 +1,16 @@
+    <div class="update-form">
+    <label for="movieId">Movie ID:</label>
+    <input type="text" id="movieId" name="movieId"><br><br>
+    <input type="submit" onclick="updateMovie(event)" value="Submit"> 
+    </div>
+
+<script>
+    function updateMovie(event) {
+      try {
+        let movieId = document.getElementById("movieId").value;
+        window.location.href = '/api/movies/'+movieId;
+      } catch (error) {
+        console.error('Error getting movie record:', error);
+      }
+    }
+  </script>

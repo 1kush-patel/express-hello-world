@@ -1,0 +1,29 @@
+<header class="header">
+    <h1>🎥 Movies Flix 🎥</h1>
+    <h3 id="welcome-text">Welcome 😎 back</h3>
+    <a href="/login" id = "loginbutton" class="button">Login</a>
+        <a href="/register" id = "signupbutton" class="button">Sign Up</a><br/>
+<br/>
+    <nav>
+        <ul>
+            <li><a href="/addmovie">Add Movie</a></li>
+            <li><a href="/getmovies">Get Movies</a></li>
+            <li><a href="/updatemovie">Update Movie</a></li>
+            <li><a href="/deletemovie">Delete Movie</a></li>
+        </ul>
+    </nav>
+</header>
+
+<script>
+
+    console.log(document.cookie.length);
+    if(document.cookie.length !== 0)
+        {
+            document.getElementById('loginbutton').style.display = 'none';
+            document.getElementById('signupbutton').style.display = 'none';
+        }
+        else{
+            document.getElementById('welcome-text').style.display = 'none';
+        }
+
+</script>

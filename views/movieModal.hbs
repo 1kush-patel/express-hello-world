@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Card</title>
+    <link rel='stylesheet' href='/stylesheets/movieModal.css' />
+
+</head>
+
+<body>
+
+
+    <!-- Movie card -->
+    <div class="movie-card">
+        <!-- Movie poster -->
+        {{#if movie.poster}}
+        <img class="movie-poster" src="{{ movie.poster }}" alt="{{ movie.title }}">
+        {{else}}
+        <img class="movie-poster" alt="{{ movie.title }}" src="/images/movie.jpg">
+        {{/if}}
+
+        <!-- Movie details container -->
+        <form>
+        <div class="movie-details">
+            <!-- Movie title -->
+            <div class="movie-title">{{ movie.title }}</div><br /><br /><br />
+
+            <!-- Movie plot -->
+            <div class="movie-plot"><span class="original-detail"> {{ movie.plot }}</span>
+                <textarea id="plot" class="movie-plot form-detail" name="plot" required hidden>{{movie.plot}}</textarea>
+            </div><br />
+
+
+            <!-- Movie rating -->
+            <div class="movie-rating"><span class="original-detail"> Rating: {{ movie.imdb.rating }}</span>
+                <input type="number" class="movie-rating form-detail" id="imdbRating" name="imdbRating"
+                    value="{{movie.imdb.rating}}" hidden required min="0" max="10" step="0.1">
+            </div>
+
+            <!-- Movie genres -->
+            <div class="movie-section">
+                <span class="movie-banner original-detail">Genres: {{ movie.genres }}</span>
+                <input type="text" class="movie-section form-detail" id="genres" name="genres" value="{{movie.genres}}"
+                    required hidden>
+
+            </div>
+
+            <!-- Movie runtime -->
+            <div class="movie-section">Runtime: {{ movie.runtime }} Minutes</div>
+            <!-- Movie cast -->
+            <div class="movie-section"><span class="original-detail"> Cast: {{ movie.cast }}</span>
+                <input type="text" id="cast" class="movie-section form-detail" name="cast" value="{{movie.cast}}"
+                    required hidden>
+            </div>
+
+
+            <!-- Movie awards -->
+            <div class="movie-section">
+                <span class="movie-banner original-detail">Awards: {{ movie.awards.text }}</span><br />
+                <input type="text" id="awardsText" class="movie-section form-detail" name="awardsText"
+                    value="{{movie.awards.text}}" required hidden>
+            </div>
+
+            <!-- Movie languages -->
+            <div class="movie-section"><span class="original-detail">Languages: {{ movie.languages }}</span>
+                <input type="text" id="languages" class="movie-section form-detail" name="languages"
+                    value="{{movie.languages}}" required hidden>
+            </div>
+
+            <!-- Movie directors -->
+            <div class="movie-section">
+                <span class="movie-banner">Directors: {{ movie.directors }}</span><br /><br />
+            </div>
+
+            <input type="text" id="movieId" value="{{ movie._id }}" hidden>
+            <input type="submit" class="form-btn original-detail" onclick="updateMovie(event)" value="Update">
+            <input type="submit" class="form-btn-delete original-detail" onclick="deleteMovie(event)" value="Delete">
+            <input type="submit" class="form-btn-save form-detail" onclick="saveUpdates(event)" value="Save" hidden>
+
+        </div>
+        </form>
+    </div>
+
+
+    <script>
+
+        function updateMovie(event) {
+            event.preventDefault();
+
+            // Hide original-detail elements
+            var originalDetails = document.querySelectorAll('.original-detail');
+            originalDetails.forEach(detail => {
+                detail.style.display = 'none';
+            });
+
+            // Display form-detail elements
+            var formDetails = document.querySelectorAll('.form-detail');
+            formDetails.forEach(detail => {
+                detail.style.display = 'block';
+            });
+        }
+
+
+        function deleteMovie(event) {
+            event.preventDefault();
+
+            try {
+                let movieId = document.getElementById("movieId").value;
+                var response = confirm("Are you sure you want to delete?");
+                if (response == true) {
+                    if (document.cookie.length == 0) {
+                        alert('You are not logged in to perform this operation!');
+                        window.location.href = '/login';
+                    }
+                    const token = document.cookie.split('; ').find(cookie => cookie.startsWith('accessToken=')).split('=')[1];
+
+                    fetch('/api/movies/' + movieId, {
+                        method: "DELETE",
+                        headers: {
+                            "Authorization": `Bearer ${token}`,
+                            "Content-Type": "application/json"
+                        }
+                    })
+                        .then(response => {
+                            if (response.ok) {
+                                response.text().then(errorMessage => {
+                                    console.log(errorMessage);
+                                    alert(errorMessage);
+                                }).catch(error => {
+                                    console.error('Error reading response text:', error);
+                                    alert('An error occurred. Please try again.');
+                                });
+
+                                window.location.href = '/';
+                            }
+                            else if (response.status === 401) {
+
+                                response.text().then(errorMessage => {
+                                    console.log(errorMessage);
+                                    alert(errorMessage);
+                                }).catch(error => {
+                                    console.error('Error reading response text:', error);
+                                    alert('An error occurred. Please try again.');
+                                });
+
+                                window.location.href = '/login';
+                            }
+                            else {
+                                response.text().then(errorMessage => {
+                                    console.log(errorMessage);
+                                    alert(errorMessage);
+                                }).catch(error => {
+                                    console.error('Error reading response text:', error);
+                                    alert('An error occurred. Please try again.');
+                                });
+                            }
+                        })
+                        .catch(error => {
+                            alert(error);
+                        });
+                }
+            } catch (error) {
+                console.error('Error deleting movie:', error);
+            }
+
+        }
+
+
+
+        function saveUpdates(event) {
+            event.preventDefault();
+            try {
+                let movieId = document.getElementById("movieId").value;
+                if(document.getElementById("imdbRating").value > 10)
+                    {
+                        alert("Rating can not be more than 10!!!");
+                        return;
+                    }
+                var response = confirm("Are you sure you want to make changes?");
+                if (response == true) {
+                    if (document.cookie.length == 0) {
+                        alert('You are not logged in to perform this operation!');
+                        window.location.href = '/login';
+                    }
+                    const token = document.cookie.split('; ').find(cookie => cookie.startsWith('accessToken=')).split('=')[1];
+
+                    const formData = {
+                        _id: document.getElementById("movieId").value,
+                        plot: document.getElementById("plot").value,
+                        genres: document.getElementById("genres").value.split(","),
+                        cast: document.getElementById("cast").value.split(","),
+                        languages: document.getElementById("languages").value.split(","),
+                        awards: {
+                            text: document.getElementById("awardsText").value,
+                        },
+                        imdb: {
+                            rating: document.getElementById("imdbRating").value,
+                        }
+                    };
+
+                    fetch('/api/movies/' + movieId, {
+                        method: "PUT",
+                        headers: {
+                            "Authorization": `Bearer ${token}`,
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify(formData)
+                    })
+                        .then(response => {
+                            if (response.ok) {
+                                response.text().then(successMessage => {
+                                    console.log(successMessage);
+                                    alert(successMessage);
+                                }).catch(error => {
+                                    alert('An error occurred. Please try again.' + error);
+                                });
+
+                                window.location.href = '/api/movies/'+movieId;
+                            }
+                            else if (response.status === 401) {
+
+                                response.text().then(errorMessage => {
+                                    console.log(errorMessage);
+                                    alert(errorMessage);
+                                }).catch(error => {
+                                    console.error('Error reading response text:', error);
+                                    alert('An error occurred. Please try again.'+error);
+                                });
+
+                                window.location.href = '/api/movies/'+movieId;
+                            }
+                            else if (response.status === 500) {
+
+                                response.text().then(errorMessage => {
+                                    console.log(errorMessage);
+                                    alert(errorMessage);
+                                }).catch(error => {
+                                    console.error('Error reading response text:', error);
+                                    alert('An error occurred. Please try again.'+error);
+                                });
+
+                                window.location.href = '/api/movies/'+movieId;
+                            }
+                            else {
+                                response.text().then(errorMessage => {
+                                    console.log(errorMessage);
+                                    alert(errorMessage);
+                                }).catch(error => {
+                                    console.error('Error reading response text:', error);
+                                    alert('An error occurred. Please try again.'+error);
+                                });
+                                 window.location.href = '/api/movies/'+movieId;
+                            }
+                        })
+                        .catch(error => {
+                            alert(error);
+                        });
+                }
+            } catch (error) {
+                console.error('Error Saving movie:', error);
+            }
+        }
+    </script>
+
+</body>
+
+</html>

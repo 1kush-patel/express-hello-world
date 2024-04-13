@@ -1,0 +1,79 @@
+.movies-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between; /* Adjust as needed */
+    margin-top: 50px
+  }
+  
+  .movie {
+    width: calc(25% - 20px); /* Adjust the width based on your preference */
+    margin-bottom: 20px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    border-radius: 5px;
+  }
+  
+  .movie-row {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+  
+  .movie-img {
+    width: 100%; /* Adjust as needed */
+    height: auto;
+    margin-bottom: 10px;
+  }
+  
+  .title {
+    margin-bottom: 10px;
+    font-size: 16px;
+    font-weight: bold;
+  }
+  
+  /* Add additional styling as needed */
+img{
+    height: 300px !important;
+    width: 250px !important;
+    margin-left: 12px;
+}
+.title{
+    text-align: center;
+    text-shadow: chartreuse;    
+}  
+
+.movie:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    transform: scale(1.05);
+    cursor: pointer; 
+  }
+  .pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    margin: 0 auto;
+}
+
+.pagination ul {
+    display: flex;
+    list-style: none;
+    padding: 0;
+}
+
+.pagination li {
+    margin: 0 5px;
+}
+
+.pagination li a {
+    text-decoration: none;
+    color: #333;
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
+
+.pagination li a:hover {
+    background-color: #f0f0f0;
+}

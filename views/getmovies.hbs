@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Movies</title>
+  <link rel='stylesheet' href='/stylesheets/movies.css' />
+</head>
+<body>
+  <form action="/api/movies" method="get">
+  <input type="number" id="page" name="page"  hidden value="{{#if currentPage}}{{currentPage}}{{else}}1{{/if}}" >
+  <label for="perPage">Records per Page (between 10 and 30):</label>
+
+  <input type="number" id="perPage" name="perPage" value="10" min="10" max="30">
+  <label for="title">Title</label>
+  <input type="text" id="title" name="title">
+
+  <input type="submit" value="Load Movies">
+</form>
+<div class="movies-container">
+  {{#each data}}
+  <div class="movie" id="{{this._id}}">
+    <h5 class="title"> {{this.title}}</h5>
+    {{#if this.poster}}
+      <img class="movie-img"  alt="Movie Image" src={{this.poster}}>
+    {{else}}
+          <img class="movie-img"  alt="Movie Image" src="/images/movie.jpg">
+    {{/if}}
+    <p>Runtime: {{this.runtime}} Minutes</p>
+    <p>Rating: {{this.imdb.rating}}</p>
+    <p>Genres: {{this.genres}}</p> 
+    <p>Languages: {{this.languages}}</p>
+  </div>
+  {{/each}}
+</div>
+<div class="pagination">
+    <ul>
+      {{#if pages }}
+          <li class="active"><a href="?page=1&perPage={{perPage}}&title={{title}}">1</a></li>
+      {{/if}}
+        {{#each pages}}
+            <li class="active"><a href="?page={{this}}&perPage={{../perPage}}&title={{../title}}">{{this}}</a></li>
+        {{/each}}
+        {{#if pages }}
+        <li class="active"><a href="?page={{totalPages}}&perPage={{perPage}}&title={{title}}">{{totalPages}}</a></li>
+              {{/if}}
+
+    </ul>
+</div>
+
+<script>
+const pageLinks = document.querySelectorAll('.pagination li');
+
+const uniquePageNumbers = [];
+
+pageLinks.forEach(function(pageLink) {
+  const pageNumber = parseInt(pageLink.innerText);
+  
+  if (!uniquePageNumbers.includes(pageNumber)) {
+    uniquePageNumbers.push(pageNumber);
+  } else {
+    pageLink.remove();
+  }
+});
+
+
+
+      document.querySelectorAll('.movie').forEach(function(movie) {
+      movie.addEventListener('click', function(event) {
+        console.log(event.currentTarget.id);
+              let movieId = event.currentTarget.id;
+              window.location.href = '/api/movies/'+movieId;
+      })
+    })            
+            
+
+</script>
+</body>
+</html>
+
+
+  

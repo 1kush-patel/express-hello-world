@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Add Movie Form</title>
+  <link rel='stylesheet' href='/stylesheets/addmovie.css' />
+
+</head>
+
+<body>
+
+  <h2>Add New Movie</h2>
+
+  <form id="addMovieForm">
+    <label for="title">Title:</label>
+    <input type="text" id="title" name="title" required><br><br>
+
+    <label for="plot">Plot:</label>
+    <textarea id="plot" name="plot" required></textarea><br><br>
+
+    <label for="genres">Genres (comma-separated):</label>
+    <input type="text" id="genres" name="genres" required><br><br>
+
+    <label for="runtime">Runtime (minutes):</label>
+    <input type="number" id="runtime" name="runtime" required><br><br>
+
+    <label for="cast">Cast (comma-separated):</label>
+    <input type="text" id="cast" name="cast"><br><br>
+
+    <label for="poster">Poster URL:</label>
+    <input type="text" id="poster" name="poster"><br><br>
+
+    <label for="fullplot">Full Plot:</label>
+    <textarea id="fullplot" name="fullplot" required></textarea><br><br>
+
+    <label for="languages">Languages (comma-separated):</label>
+    <input type="text" id="languages" name="languages" required><br><br>
+
+    <label for="released">Released Date:</label>
+    <input type="date" id="released" name="released" required><br><br>
+
+    <label for="directors">Directors (comma-separated):</label>
+    <input type="text" id="directors" name="directors" required><br><br>
+
+    <label for="rated">Rated:</label>
+    <input type="text" id="rated" name="rated"><br><br>
+
+    <label for="awardsWins">Awards Wins:</label>
+    <input type="number" id="awardsWins" name="awards[wins]"><br><br>
+
+    <label for="awardsNominations">Awards Nominations:</label>
+    <input type="number" id="awardsNominations" name="awards[nominations]"><br><br>
+
+    <label for="awardsText">Awards Text:</label>
+    <input type="text" id="awardsText" name="awards[text]"><br><br>
+
+    <label for="awardsLastUpdated">Awards Last Updated:</label>
+    <input type="date" id="awardsLastUpdated" name="awards[lastupdated]"><br><br>
+
+    <label for="year">Year:</label>
+    <input type="number" id="year" name="year" required><br><br>
+
+    <label for="imdbRating">IMDb Rating:</label>
+    <input type="number" id="imdbRating" name="imdb[rating]" required><br><br>
+
+    <label for="imdbVotes">IMDb Votes:</label>
+    <input type="number" id="imdbVotes" name="imdb[votes]"><br><br>
+
+    <label for="imdbId">IMDb ID:</label>
+    <input type="number" id="imdbId" name="imdb[id]"><br><br>
+
+    <label for="countries">Countries (comma-separated):</label>
+    <input type="text" id="countries" name="countries"><br><br>
+
+    <label for="type">Type:</label>
+    <input type="text" id="type" name="type" required><br><br>
+
+    <label for="tomatoesViewerFresh">Tomatoes Viewer Fresh:</label>
+    <input type="number" id="tomatoesViewerFresh" name="tomatoes[viewer][fresh]"><br><br>
+
+    <label for="tomatoesCriticRotten">Tomatoes Critic Rotten:</label>
+    <input type="number" id="tomatoesCriticRotten" name="tomatoes[viewer][critic][rotten]"><br><br>
+
+    <label for="tomatoesCriticLastUpdated">Tomatoes Critic Last Updated:</label>
+    <input type="date" id="tomatoesCriticLastUpdated" name="tomatoes[viewer][critic][lastUpdated]"><br><br>
+
+    <label for="numMflixComments">Number of Mflix Comments:</label>
+    <input type="number" id="numMflixComments" name="tomatoes[num_mflix_comments]"><br><br>
+
+    <input type="submit" value="Add Movie" onclick="addMovie(event)">
+  </form>
+</body>
+
+</html>
+<script>
+  function addMovie(event) {
+    event.preventDefault();
+
+    // Collect form data
+    const formData = {
+      title: document.getElementById("title").value,
+      plot: document.getElementById("plot").value,
+      genres: document.getElementById("genres").value.split(","),
+      runtime: document.getElementById("runtime").value,
+      cast: document.getElementById("cast").value.split(","),
+      poster: document.getElementById("poster").value,
+      fullplot: document.getElementById("fullplot").value,
+      languages: document.getElementById("languages").value.split(","),
+      released: document.getElementById("released").value,
+      directors: document.getElementById("directors").value.split(","),
+      rated: document.getElementById("rated").value,
+      awards: {
+        wins: document.getElementById("awardsWins").value,
+        nominations: document.getElementById("awardsNominations").value,
+        text: document.getElementById("awardsText").value,
+        lastupdated: document.getElementById("awardsLastUpdated").value
+      },
+      year: document.getElementById("year").value,
+      imdb: {
+        rating: document.getElementById("imdbRating").value,
+        votes: document.getElementById("imdbVotes").value,
+        id: document.getElementById("imdbId").value
+      },
+      countries: document.getElementById("countries").value.split(","),
+      type: document.getElementById("type").value,
+      tomatoes: {
+        viewer: {
+          fresh: document.getElementById("tomatoesViewerFresh").value
+        },
+        critic: {
+          rotten: document.getElementById("tomatoesCriticRotten").value,
+          lastUpdated: document.getElementById("tomatoesCriticLastUpdated").value
+        },
+        num_mflix_comments: document.getElementById("numMflixComments").value
+      }
+
+    };
+
+
+    const token = document.cookie.split('; ').find(cookie => cookie.startsWith('accessToken=')).split('=')[1];
+
+    // Send data to backend
+    fetch('/api/movies', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+      },
+      body: JSON.stringify(formData)
+    })
+      .then(response => {
+        if (response.ok) {
+          alert('Movie added successfully!');
+          // Optionally redirect or perform any other action
+        } else {
+          alert('Failed to add movie. Please try again.');
+        }
+      })
+      .catch(error => {
+        console.error('Error adding movie:', error);
+        alert('Failed to add movie. Please try again.');
+      });
+  }
+</script>

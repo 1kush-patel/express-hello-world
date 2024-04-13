@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signup Form</title>
+    <link rel='stylesheet' href='/stylesheets/loginsignup.css' />
+</head>
+<body>
+
+<div class="container">
+    <h2>Signup</h2>
+    <form>
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
+
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required>
+
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required>
+
+        <label for="confirm_password">Confirm Password:</label>
+        <input type="password" id="confirm_password" name="confirm_password" required>
+
+        <input type="submit" onclick="validateForm(event)" value="Signup">
+    </form>
+</div>
+
+<script>
+    function validateForm(event) {
+        event.preventDefault();
+
+        var email = document.getElementById("email").value;
+        var password = document.getElementById("password").value;
+        var confirm_password = document.getElementById("confirm_password").value;
+
+        // Validate email format
+        var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+            alert("Invalid email address!");
+            return;
+        }
+
+        // Validate password and confirmation
+        if (password !== confirm_password) {
+            alert("Password does not match!");
+            return;
+        }
+
+        // If all validations pass, proceed with form submission
+        fetch('/api/movies/signup', {
+            method: "POST",
+            mode: "cors",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ // Send form data as JSON string
+                email: email,
+                username: document.getElementById("username").value,
+                password: password // Only sending password once is enough
+            })
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            alert("User registered successfully!");
+            window.location.href = '/login';
+        })
+        .catch(error => {
+            // Handle error
+            console.error('Error fetching message:', error);
+            // Display an error message to the user
+        });
+    }
+</script>
+
+</body>
+</html>
