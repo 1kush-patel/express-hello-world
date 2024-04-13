@@ -624,6 +624,7 @@ function authenticateUser(req, res, next) {
 
 (async () => {
     try {
+        console.log(database.url);
         await db.initialize(database.url);
         app.listen(port, () => {
             console.log("App listening on port: " + port);
